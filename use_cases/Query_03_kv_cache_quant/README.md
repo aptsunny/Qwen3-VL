@@ -1,4 +1,4 @@
-# Case-03: KV Cache 量化（KV8 vs KV16）
+# Query-03: KV Cache 量化（KV8 vs KV16）
 
 ## 案例概述
 
