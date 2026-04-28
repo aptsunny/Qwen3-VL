@@ -1,0 +1,113 @@
+{
+  "case_id": "case_02_long_context",
+  "case_name": "8K 长上下文推理",
+  "difficulty": 4,
+  "description": "长文档理解任务的量化挑战，包括 KV Cache 内存爆炸、注意力权重数值稳定性、位置编码量化误差等问题",
+  
+  "input_examples": [
+    {
+      "id": "input_001",
+      "input_type": "long_document",
+      "document_type": "multi_page_pdf",
+      "pages": [
+        {"page_id": 1, "image_path": "page1.png"},
+        {"page_id": 2, "image_path": "page2.png"},
+        {"page_id": 3, "image_path": "page3.png"}
+      ],
+      "text_prompt": "Summarize the key points from all pages and answer: What is the main conclusion?",
+      "context_length": 8192,
+      "max_new_tokens": 512
+    },
+    {
+      "id": "input_002",
+      "input_type": "long_document",
+      "document_type": "legal_contract",
+      "pages": [
+        {"page_id": 1, "image_path": "contract_page1.png"},
+        {"page_id": 2, "image_path": "contract_page2.png"},
+        {"page_id": 3, "image_path": "contract_page3.png"},
+        {"page_id": 4, "image_path": "contract_page4.png"},
+        {"page_id": 5, "image_path": "contract_page5.png"}
+      ],
+      "text_prompt": "Extract all key terms and conditions from this contract.",
+      "context_length": 16384,
+      "max_new_tokens": 1024
+    }
+  ],
+  
+  "expected_outputs": [
+    {
+      "id": "output_001",
+      "input_id": "input_001",
+      "output_type": "text",
+      "response": "Based on the analysis of all pages, the document discusses climate change impacts. The main conclusion is that immediate action is required to reduce carbon emissions by 50% before 2030 to avoid catastrophic environmental consequences.",
+      "context_tokens": 8192,
+      "generated_tokens": 512,
+      "total_tokens": 8704,
+      "inference_time_ms": 2500,
+      "peak_memory_mb": 4500,
+      "kv_cache_memory_mb": 1570,
+      "kv_bits": 8
+    },
+    {
+      "id": "output_002",
+      "input_id": "input_002",
+      "output_type": "text",
+      "response": "Key terms and conditions:\n1. Contract duration: 24 months\n2. Payment terms: Net 30 days\n3. Termination clause: 60 days notice required\n4. Liability cap: $1,000,000\n5. Confidentiality: All information remains proprietary",
+      "context_tokens": 16384,
+      "generated_tokens": 1024,
+      "total_tokens": 17408,
+      "inference_time_ms": 5000,
+      "peak_memory_mb": 6500,
+      "kv_cache_memory_mb": 3140,
+      "kv_bits": 8
+    }
+  ],
+  
+  "quantization_challenges": [
+    {
+      "challenge": "KV Cache 内存爆炸",
+      "description": "长上下文推理时，KV Cache 存储所有历史 token 的 Key/Value，内存占用极大",
+      "impact": "8K 序列 KV Cache 需 786 MB（KV16），32K 序列需 3.1 GB",
+      "solution": "KV8 量化，减少 50% 内存"
+    },
+    {
+      "challenge": "注意力权重数值稳定性",
+      "description": "长序列的 softmax 注意力权重范围极大，INT8 量化后可能丢失",
+      "impact": "长序列（8K-32K）精度损失 1-2%，超长序列（>64K）精度损失 > 3%",
+      "solution": "逐头量化（Per-Head Quantization）+ 混合精度 KV Cache"
+    },
+    {
+      "challenge": "位置编码量化误差",
+      "description": "MRoPE 位置编码的 cos/sin 值域 [-1, 1]，INT8 量化后精度损失显著",
+      "impact": "位置误差累积 → 长序列注意力偏移",
+      "solution": "位置编码保留 FP16 计算"
+    },
+    {
+      "challenge": "梯度检查点与量化冲突",
+      "description": "量化后重新计算激活会导致数值不一致",
+      "impact": "训练不稳定",
+      "solution": "量化感知训练（QAT）+ 混合精度检查点"
+    }
+  ],
+  
+  "validation_metrics": {
+    "precision": {
+      "LongBench": {"metric": "平均分", "baseline": 45.2, "target": 44.0, "max_loss": 1.2},
+      "DocVQA": {"metric": "ANLS", "baseline": 82.5, "target": 81.0, "max_loss": 1.5},
+      "NarrativeQA": {"metric": "F1", "baseline": 35.8, "target": 34.5, "max_loss": 1.3}
+    },
+    "performance": {
+      "snapdragon_8_gen3_8k": {"latency_ms": 2500, "memory_mb": 4000},
+      "snapdragon_8_gen3_16k": {"latency_ms": 5000, "memory_mb": 5000}
+    }
+  },
+  
+  "requirements_for_qualcomm": [
+    "动态 shape 编译（变长 batch/seq_len）",
+    "Per-Head KV 量化策略",
+    "MRoPE 位置编码保留 FP16",
+    "分段量化支持",
+    "长序列标定工具（8K-32K）"
+  ]
+}

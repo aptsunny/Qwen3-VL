@@ -1,0 +1,117 @@
+{
+  "case_id": "case_01_video_quantization",
+  "case_name": "视频输入量化",
+  "difficulty": 5,
+  "description": "视频理解任务的量化挑战，包括时序一致性、内存爆炸、变长序列等问题",
+  
+  "input_examples": [
+    {
+      "id": "input_001",
+      "input_type": "video",
+      "video_path": "sample_video.mp4",
+      "video_config": {
+        "fps": 2.0,
+        "num_frames": 16,
+        "min_pixels": 262144,
+        "max_pixels": 262144,
+        "total_pixels": 16777216
+      },
+      "text_prompt": "Describe what happens in this video in detail.",
+      "max_new_tokens": 512
+    },
+    {
+      "id": "input_002",
+      "input_type": "video",
+      "video_path": "action_video.mp4",
+      "video_config": {
+        "fps": 4.0,
+        "num_frames": 32,
+        "min_pixels": 262144,
+        "max_pixels": 262144,
+        "total_pixels": 33554432
+      },
+      "text_prompt": "Identify all actions performed in this video.",
+      "max_new_tokens": 256
+    }
+  ],
+  
+  "expected_outputs": [
+    {
+      "id": "output_001",
+      "input_id": "input_001",
+      "output_type": "text",
+      "response": "The video shows a person walking through a park on a sunny day. They pass by several trees and a small pond where ducks are swimming. The person stops briefly to watch the ducks before continuing their walk along the path.",
+      "video_tokens": 38400,
+      "total_tokens": 39500,
+      "inference_time_ms": 1500,
+      "peak_memory_mb": 3300,
+      "quantization_config": {
+        "vision": "W8A16",
+        "llm": "W4A16",
+        "kv_cache": "KV8"
+      }
+    },
+    {
+      "id": "output_002",
+      "input_id": "input_002",
+      "output_type": "text",
+      "response": "The video contains the following actions: 1) A person enters from the left, 2) They pick up a book from the table, 3) They sit on the chair and start reading, 4) They stand up and exit to the right.",
+      "video_tokens": 76800,
+      "total_tokens": 77500,
+      "inference_time_ms": 2800,
+      "peak_memory_mb": 5500,
+      "quantization_config": {
+        "vision": "W8A16",
+        "llm": "W4A16",
+        "kv_cache": "KV8"
+      }
+    }
+  ],
+  
+  "quantization_challenges": [
+    {
+      "challenge": "时序一致性",
+      "description": "视频帧之间存在时序相关性，独立量化每帧会导致时序特征不一致",
+      "impact": "动作识别精度下降 5-8%",
+      "solution": "联合量化所有帧，保持时序一致性"
+    },
+    {
+      "challenge": "内存爆炸",
+      "description": "视频推理的内存消耗 = 单帧内存 × 帧数，线性增长",
+      "impact": "16帧 480p 视频需 3.3 GB 内存",
+      "solution": "限制帧数（移动端 ≤8 帧），使用 KV8"
+    },
+    {
+      "challenge": "变长序列",
+      "description": "视频帧数不固定（8-2048 帧），量化参数需适应不同序列长度",
+      "impact": "标定用固定长度，部署时遇到更长序列精度下降",
+      "solution": "动态范围标定 + 分段统计"
+    },
+    {
+      "challenge": "KV Cache 压力",
+      "description": "视频理解需要处理长序列（40K-100K tokens），KV Cache 成为内存瓶颈",
+      "impact": "16帧视频 KV Cache 需 3.9 GB",
+      "solution": "KV8 量化，减少 50% 内存"
+    }
+  ],
+  
+  "validation_metrics": {
+    "precision": {
+      "MSRVTT": {"metric": "CIDEr", "baseline": 65.2, "target": 63.0, "max_loss": 2.2},
+      "TGIF": {"metric": "Action Acc", "baseline": 78.5, "target": 75.0, "max_loss": 3.5},
+      "ActivityNet": {"metric": "mAP", "baseline": 35.2, "target": 33.0, "max_loss": 2.2}
+    },
+    "performance": {
+      "snapdragon_8_gen3_8frames_360p": {"latency_ms": 1500, "memory_mb": 2000},
+      "snapdragon_8_gen3_16frames_480p": {"latency_ms": 2500, "memory_mb": 3500}
+    }
+  },
+  
+  "requirements_for_qualcomm": [
+    "视频 3D 卷积 INT8 量化支持",
+    "多帧批处理并行化（8-16 帧）",
+    "动态 shape 编译（变长 batch/seq_len）",
+    "Per-Head KV 量化策略",
+    "多模态联合标定 API"
+  ]
+}

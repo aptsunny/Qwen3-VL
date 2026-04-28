@@ -1,0 +1,139 @@
+{
+  "case_id": "case_04_lora_quantization",
+  "case_name": "LoRA + 量化融合",
+  "difficulty": 4,
+  "description": "LoRA 微调后的模型与量化存在兼容性问题，需要解决适配器融合和权重合并的技术难题",
+  
+  "input_examples": [
+    {
+      "id": "input_001",
+      "input_type": "image_with_text",
+      "image_path": "medical_scan.png",
+      "text_prompt": "Analyze this medical image and identify any abnormalities.",
+      "lora_config": {
+        "lora_id": "medical_v1",
+        "lora_path": "lora_adapters/medical_v1.safetensors",
+        "merge_strategy": "runtime"
+      },
+      "max_new_tokens": 512
+    },
+    {
+      "id": "input_002",
+      "input_type": "image_with_text",
+      "image_path": "legal_document.png",
+      "text_prompt": "Extract all legal terms and their definitions.",
+      "lora_config": {
+        "lora_id": "legal_v1",
+        "lora_path": "lora_adapters/legal_v1.safetensors",
+        "merge_strategy": "static"
+      },
+      "max_new_tokens": 1024
+    }
+  ],
+  
+  "expected_outputs": [
+    {
+      "id": "output_001",
+      "input_id": "input_001",
+      "output_type": "text",
+      "response": "The medical image shows signs of inflammation in the upper right quadrant. Further examination is recommended to determine the cause. No immediate concerns detected in other areas.",
+      "lora_applied": true,
+      "lora_id": "medical_v1",
+      "total_tokens": 1024,
+      "inference_time_ms": 1200,
+      "peak_memory_mb": 4500,
+      "lora_merged": false
+    },
+    {
+      "id": "output_002",
+      "input_id": "input_002",
+      "output_type": "text",
+      "response": "Legal terms found:\n1. Force Majeure - Unforeseeable circumstances preventing contract fulfillment\n2. Indemnification - Compensation for loss or damage\n3. Jurisdiction - Legal authority over a geographic area",
+      "lora_applied": true,
+      "lora_id": "legal_v1",
+      "total_tokens": 1536,
+      "inference_time_ms": 1000,
+      "peak_memory_mb": 4200,
+      "lora_merged": true
+    }
+  ],
+  
+  "lora_strategies": {
+    "static_merge": {
+      "description": "训练 LoRA → 合并权重 → 重新量化 → 部署",
+      "advantages": ["推理性能最优", "部署简单"],
+      "disadvantages": ["无法动态切换", "每个 LoRA 需单独量化"],
+      "use_case": "固定任务（如特定领域的 OCR、文档解析）",
+      "performance": {
+        "latency_overhead": "0%",
+        "memory_overhead": "5%"
+      }
+    },
+    "dynamic_decoupling": {
+      "description": "基础模型（量化） + LoRA 适配器（FP16） → 运行时动态融合",
+      "advantages": ["可动态切换", "LoRA 文件小（10-50 MB）"],
+      "disadvantages": ["性能损失 15-20%", "部署复杂"],
+      "use_case": "需要多任务切换的智能助手",
+      "performance": {
+        "latency_overhead": "15-20%",
+        "memory_overhead": "10%"
+      }
+    },
+    "qa_lora": {
+      "description": "量化感知 LoRA 微调，同时优化 LoRA + 量化参数",
+      "advantages": ["精度最高", "量化参数优化"],
+      "disadvantages": ["训练成本高", "需要量化感知训练"],
+      "use_case": "高精度需求场景",
+      "performance": {
+        "precision_improvement": "+1.5-2.5%"
+      }
+    }
+  },
+  
+  "quantization_challenges": [
+    {
+      "challenge": "量化后 LoRA 失效",
+      "description": "PTQ 将权重从 FP16 转为 INT4/INT8，但 LoRA 适配器是 FP16，两者不兼容",
+      "impact": "每次推理都要 dequantize 权重 → 速度下降 30-50%",
+      "solution": "LoRA 权重融合（静态合并）或动态解耦"
+    },
+    {
+      "challenge": "权重融合策略",
+      "description": "LoRA 权重合并到量化权重时，需要重新量化，可能引入额外误差",
+      "impact": "精度损失 1-2%",
+      "solution": "QALoRA（量化感知 LoRA 微调）"
+    },
+    {
+      "challenge": "多 LoRA 切换",
+      "description": "如果需要动态切换多个 LoRA 适配器，每次都需要重新量化",
+      "impact": "部署复杂度高",
+      "solution": "动态解耦方案（性能损失 15-20%）"
+    }
+  ],
+  
+  "validation_metrics": {
+    "precision": {
+      "domain_task": {
+        "fp16_lora_baseline": 85.0,
+        "quantized_target": 83.0,
+        "max_loss": 2.0
+      },
+      "base_task": {
+        "fp16_baseline": 60.8,
+        "quantized_target": 59.5,
+        "max_loss": 1.3
+      }
+    },
+    "performance": {
+      "static_merge": {"latency_overhead": "0%", "memory_overhead": "5%"},
+      "dynamic_decoupling": {"latency_overhead": "15-20%", "memory_overhead": "10%"}
+    }
+  },
+  
+  "requirements_for_qualcomm": [
+    "LoRA 动态加载支持",
+    "LoRA 融合工具（自动合并并重新量化）",
+    "多 LoRA 内存管理策略",
+    "运行时权重融合 API"
+  ]
+}

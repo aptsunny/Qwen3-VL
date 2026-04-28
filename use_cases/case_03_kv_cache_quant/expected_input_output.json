@@ -1,0 +1,133 @@
+{
+  "case_id": "case_03_kv_cache_quant",
+  "case_name": "KV Cache 量化（KV8 vs KV16）",
+  "difficulty": 3,
+  "description": "KV Cache 是自回归生成时的主要内存瓶颈，KV8 量化可减少 50% 内存，但需权衡精度损失",
+  
+  "input_examples": [
+    {
+      "id": "input_001",
+      "input_type": "text_with_image",
+      "image_path": "document.png",
+      "text_prompt": "Extract all information from this document.",
+      "max_new_tokens": 1024,
+      "kv_cache_config": {
+        "kv_bits": 8,
+        "kv_strategy": "per_head"
+      }
+    },
+    {
+      "id": "input_002",
+      "input_type": "text_with_image",
+      "image_path": "invoice.png",
+      "text_prompt": "Extract all items and their prices from this invoice.",
+      "max_new_tokens": 512,
+      "kv_cache_config": {
+        "kv_bits": 8,
+        "kv_strategy": "per_head"
+      }
+    }
+  ],
+  
+  "expected_outputs": [
+    {
+      "id": "output_001",
+      "input_id": "input_001",
+      "output_type": "text",
+      "response": "The document contains the following information:\n- Title: Annual Report 2024\n- Date: January 15, 2024\n- Author: John Smith\n- Content: Financial summary, market analysis, future projections...",
+      "context_tokens": 1024,
+      "generated_tokens": 1024,
+      "total_tokens": 2048,
+      "inference_time_ms": 1800,
+      "peak_memory_mb": 3200,
+      "kv_cache_memory_mb": 800,
+      "kv_bits": 8
+    },
+    {
+      "id": "output_002",
+      "input_id": "input_002",
+      "output_type": "text",
+      "response": "Invoice items:\n1. Product A - $25.00\n2. Product B - $15.50\n3. Service Fee - $10.00\nTotal: $50.50",
+      "context_tokens": 512,
+      "generated_tokens": 512,
+      "total_tokens": 1024,
+      "inference_time_ms": 900,
+      "peak_memory_mb": 2500,
+      "kv_cache_memory_mb": 400,
+      "kv_bits": 8
+    }
+  ],
+  
+  "kv_comparison": {
+    "model": "Qwen3-VL-2B",
+    "seq_len": 8192,
+    "results": [
+      {
+        "kv_precision": "KV16",
+        "mmmu": 60.8,
+        "textvqa": 68.0,
+        "docvqa": 82.5,
+        "mathvista": 61.5,
+        "kv_cache_memory_gb": 3.2,
+        "total_memory_gb": 7.8
+      },
+      {
+        "kv_precision": "KV8",
+        "mmmu": 60.5,
+        "textvqa": 67.7,
+        "docvqa": 82.2,
+        "mathvista": 61.2,
+        "kv_cache_memory_gb": 1.6,
+        "total_memory_gb": 6.2
+      }
+    ],
+    "key_findings": [
+      "KV8 精度损失极小：平均 -0.3% ~ -0.5%",
+      "内存减半：KV Cache 内存减少 50%",
+      "速度提升：内存带宽需求降低 → 生成速度 +8%~12%"
+    ]
+  },
+  
+  "quantization_challenges": [
+    {
+      "challenge": "KV Cache 内存占比高",
+      "description": "长序列推理时 KV Cache 内存占比可达 40-70%",
+      "impact": "8K 序列 KV Cache 占用 41% 内存，32K 序列占用 73%",
+      "solution": "KV8 量化，减少 50% 内存"
+    },
+    {
+      "challenge": "逐头量化策略",
+      "description": "不同注意力头的激活分布差异大，全局统一量化会导致某些头过量化",
+      "impact": "精度损失不均匀",
+      "solution": "Per-Head Dynamic Quantization"
+    },
+    {
+      "challenge": "动态计算量化参数",
+      "description": "KV Cache 的量化参数需动态计算（每层、每头、甚至每 token 不同）",
+      "impact": "标定复杂度高",
+      "solution": "使用长文本前向传播收集统计信息"
+    }
+  ],
+  
+  "validation_metrics": {
+    "precision": {
+      "MMMU": {"metric": "Acc", "kv16_baseline": 60.8, "kv8_target": 60.3, "max_loss": 0.5},
+      "TextVQA": {"metric": "Acc", "kv16_baseline": 68.0, "kv8_target": 67.5, "max_loss": 0.5},
+      "DocVQA": {"metric": "ANLS", "kv16_baseline": 82.5, "kv8_target": 82.0, "max_loss": 0.5}
+    },
+    "performance": {
+      "snapdragon_8_gen3_8k": {
+        "kv16_memory_gb": 3.2,
+        "kv8_memory_gb": 1.6,
+        "speed_improvement": "8-12%"
+      }
+    }
+  },
+  
+  "requirements_for_qualcomm": [
+    "KV Cache 量化选项（INT8 KV 存储）",
+    "Per-Head 量化策略支持",
+    "运行时 KV Cache 配置 API",
+    "KV Cache 缓冲区分配接口"
+  ]
+}

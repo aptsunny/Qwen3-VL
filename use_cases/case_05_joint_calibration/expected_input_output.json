@@ -1,0 +1,162 @@
+{
+  "case_id": "case_05_joint_calibration",
+  "case_name": "多模态联合标定",
+  "difficulty": 4,
+  "description": "ViT 单独标定导致多模态任务量化损失大，需要 Vision+LLM 整体联合 calibration 方案",
+  
+  "input_examples": [
+    {
+      "id": "input_001",
+      "input_type": "multimodal",
+      "modalities": ["image", "text"],
+      "image_path": "sample_image.jpg",
+      "text_prompt": "Describe this image in detail.",
+      "calibration_config": {
+        "joint_calibration": true,
+        "modalities": ["vision", "text"],
+        "num_samples": 1000
+      }
+    },
+    {
+      "id": "input_002",
+      "input_type": "multimodal",
+      "modalities": ["video", "text"],
+      "video_path": "sample_video.mp4",
+      "text_prompt": "Describe the actions in this video.",
+      "calibration_config": {
+        "joint_calibration": true,
+        "modalities": ["vision", "text", "video"],
+        "num_samples": 500
+      }
+    }
+  ],
+  
+  "expected_outputs": [
+    {
+      "id": "output_001",
+      "input_id": "input_001",
+      "output_type": "quantization_params",
+      "quantization_params": {
+        "vision": {"bitwidth": 8, "granularity": "per_channel"},
+        "llm": {"bitwidth": 4, "granularity": "per_channel"},
+        "fusion": {"bitwidth": 8, "granularity": "per_channel"}
+      },
+      "calibration_quality": {
+        "vision_llm_alignment": 0.95,
+        "activation_coverage": 0.92
+      }
+    },
+    {
+      "id": "output_002",
+      "input_id": "input_002",
+      "output_type": "quantization_params",
+      "quantization_params": {
+        "vision": {"bitwidth": 8, "granularity": "per_channel"},
+        "llm": {"bitwidth": 4, "granularity": "per_channel"},
+        "fusion": {"bitwidth": 8, "granularity": "per_channel"},
+        "kv_cache": {"bitwidth": 8, "strategy": "per_head"}
+      },
+      "calibration_quality": {
+        "vision_llm_alignment": 0.93,
+        "activation_coverage": 0.90
+      }
+    }
+  ],
+  
+  "calibration_comparison": {
+    "independent_calibration": {
+      "description": "ViT 独立标定 + LLM 独立标定",
+      "results": {
+        "MMMU": 56.2,
+        "TextVQA": 62.1,
+        "DocVQA": 78.5
+      },
+      "note": "用户当前方案，多模态任务精度下降 3-5%"
+    },
+    "joint_calibration": {
+      "description": "Vision+LLM 联合标定",
+      "results": {
+        "MMMU": 58.7,
+        "TextVQA": 65.3,
+        "DocVQA": 81.0
+      },
+      "note": "+2.5% 精度提升"
+    },
+    "fp32_baseline": {
+      "description": "FP32 基准",
+      "results": {
+        "MMMU": 60.8,
+        "TextVQA": 68.0,
+        "DocVQA": 82.5
+      }
+    }
+  },
+  
+  "calibration_data_requirements": {
+    "image_text": {
+      "source": "COCO Captions",
+      "samples": 500,
+      "coverage": "通用识别"
+    },
+    "multi_image_text": {
+      "source": "VisualGenome",
+      "samples": 300,
+      "coverage": "多目标理解"
+    },
+    "video_text": {
+      "source": "MSRVTT",
+      "samples": 200,
+      "coverage": "视频理解"
+    },
+    "document_text": {
+      "source": "DocVQA",
+      "samples": 300,
+      "coverage": "文档解析"
+    },
+    "long_document_text": {
+      "source": "arXiv papers",
+      "samples": 100,
+      "coverage": "长上下文"
+    },
+    "total_samples": 1400
+  },
+  
+  "quantization_challenges": [
+    {
+      "challenge": "独立标定的缺陷",
+      "description": "ViT 单独用 COCO 标定、再整体导出评估的方式在多模态任务上量化损失偏大",
+      "impact": "多模态任务精度下降 3-5%",
+      "solution": "Vision+LLM 整体联合 calibration"
+    },
+    {
+      "challenge": "跨模态特征对齐",
+      "description": "Vision 和 LLM 的特征分布差异大，独立量化会导致特征对齐失败",
+      "impact": "多模态融合层激活异常",
+      "solution": "联合标定保持特征分布一致性"
+    },
+    {
+      "challenge": "标定数据多样性",
+      "description": "需要覆盖多种模态组合（图像+文本、视频+文本、多图+文本）",
+      "impact": "标定数据准备复杂",
+      "solution": "分层采样策略，覆盖主要场景"
+    }
+  ],
+  
+  "validation_metrics": {
+    "precision_comparison": {
+      "independent_vs_joint": {
+        "MMMU": {"independent": 56.2, "joint": 58.7, "improvement": 2.5},
+        "TextVQA": {"independent": 62.1, "joint": 65.3, "improvement": 3.2},
+        "DocVQA": {"independent": 78.5, "joint": 81.0, "improvement": 2.5}
+      }
+    },
+    "key_finding": "联合标定可显著减少多模态量化损失，必须使用！"
+  },
+  
+  "requirements_for_qualcomm": [
+    "多模态联合标定 API（Vision + LLM 同时标定）",
+    "跨模态特征对齐验证工具",
+    "自定义数据集接口（用户可上传图文配对数据）",
+    "标定质量评估指标"
+  ]
+}
