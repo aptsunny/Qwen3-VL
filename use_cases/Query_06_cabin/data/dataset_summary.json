@@ -1,0 +1,12 @@
+{
+  "total": 100,
+  "by_category": {
+    "vqa_incar": 25,
+    "vqa_outcar": 25,
+    "chat": 25,
+    "toolcall": 25
+  },
+  "images": 50,
+  "vqa_without_golden": 0,
+  "golden_model": "qwen3-vl-235b-a22b-instruct"
+}

@@ -1,0 +1,100 @@
+{"sample_id": "q06_toolcall_006", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=front,query=前面的风景怎么样？)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_008", "category": "toolcall", "channel": "toolcall", "name_hit": false, "param_hit": null, "param_hit_exact": null, "actual": "我无法确定你现在在哪个隧道里，因为这需要实时定位和地图数据支持，而我目前没有这些能力。建议你打开导航或查看车载屏幕上的地图信息。", "no_call": true, "exclude": false}
+{"sample_id": "q06_toolcall_012", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=front,query=前方有没有红绿灯)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_016", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=front,query=前面能不能通过)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_017", "category": "toolcall", "channel": "toolcall", "name_hit": false, "param_hit": null, "param_hit_exact": null, "actual": "车外温度我暂时无法直接获取，建议你通过手机或车载屏幕查看实时天气或温度数据。需要我帮你查一下车外环境吗？比如路况或周边物体？", "no_call": true, "exclude": true}
+{"sample_id": "q06_toolcall_019", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=front,query=正前方是什么车)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_024", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=front,query=前面那辆车是什么牌子？)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_028", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=rear,query=后面有什么)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_029", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=left,query=旁边那辆车是什么车？)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_030", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_exterior_vision(direction=surround,query=附近有超充站吗)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_109", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=defrost,action=OPEN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_110", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=compressor,action=OPEN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_113", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=defrost,action=OPEN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_115", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=auto,action=CLOSE)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_117", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=defrost,action=CLOSE)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_122", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_control(function=auto,action=OPEN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_002", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": false, "param_hit_exact": false, "actual": "AC_adjust(function=airflow,value=9)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_003", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_adjust(function=airflow,value=9)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_004", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": false, "param_hit_exact": false, "actual": "AC_adjust(function=airflow,value=9)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_005", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_adjust(function=airflow,adjustment=DOWN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_007", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": true, "param_hit_exact": true, "actual": "AC_adjust(function=airflow,adjustment=DOWN)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_001", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_interior_vision(direction=front_row,sound_position=unknown,query=看看车里有几个人)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_009", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_interior_vision(direction=front_row,sound_position=driver,query=看看主驾驶手中的画内容是什么)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_010", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_interior_vision(direction=front_row,sound_position=driver,query=看看前排只有一个人对吗)", "no_call": false, "exclude": false}
+{"sample_id": "q06_toolcall_011", "category": "toolcall", "channel": "toolcall", "name_hit": true, "param_hit": null, "param_hit_exact": null, "actual": "query_vehicle_interior_vision(direction=front_row,sound_position=driver,query=看看前排有几个人)", "no_call": false, "exclude": false}
+{"sample_id": "q06_incar_000", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明车内仅一人，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_001", "category": "vqa_incar", "channel": "judge", "verdict": "partial", "reason": "未提及系安全带", "has_ref": true}
+{"sample_id": "q06_incar_002", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型回答确认司机系了安全带", "has_ref": true}
+{"sample_id": "q06_incar_003", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明副驾为空，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_004", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "白底红黑条纹符合白色衣服及红黑条纹", "has_ref": true}
+{"sample_id": "q06_incar_005", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "回答为男性，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_006", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "手部位置对应参考答案", "has_ref": true}
+{"sample_id": "q06_incar_007", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明后排空，符合参考答案", "has_ref": true}
+{"sample_id": "q06_incar_008", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明车内仅一人，与参考一致", "has_ref": true}
+{"sample_id": "q06_incar_009", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "核心信息一致", "has_ref": true}
+{"sample_id": "q06_incar_010", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型确认司机系了安全带", "has_ref": true}
+{"sample_id": "q06_incar_011", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明副驾空无，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_012", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "描述白底红黑条纹，符合参考", "has_ref": true}
+{"sample_id": "q06_incar_013", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型确认车里的人是男性", "has_ref": true}
+{"sample_id": "q06_incar_014", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "手在方向盘上，符合参考", "has_ref": true}
+{"sample_id": "q06_incar_015", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明后排空无乘客，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_016", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "回答人数为1，符合参考", "has_ref": true}
+{"sample_id": "q06_incar_017", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "核心信息一致，描述符合", "has_ref": true}
+{"sample_id": "q06_incar_018", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "确认司机系了安全带", "has_ref": true}
+{"sample_id": "q06_incar_019", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明副驾驶空位，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_incar_020", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型提及深灰上衣，符合参考答案", "has_ref": true}
+{"sample_id": "q06_incar_021", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "明确指出车里的人是男性", "has_ref": true}
+{"sample_id": "q06_incar_022", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "回答指出司机双手在方向盘上", "has_ref": true}
+{"sample_id": "q06_incar_023", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "回答表明后排为空，符合参考答案", "has_ref": true}
+{"sample_id": "q06_incar_024", "category": "vqa_incar", "channel": "judge", "verdict": "correct", "reason": "模型说明车内仅一人，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_000", "category": "vqa_outcar", "channel": "judge", "verdict": "wrong", "reason": "给出具体5辆，参考答案未确定", "has_ref": true}
+{"sample_id": "q06_outcar_001", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "与参考答案云层、路面湿滑一致", "has_ref": true}
+{"sample_id": "q06_outcar_002", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答无行人，符合参考", "has_ref": true}
+{"sample_id": "q06_outcar_003", "category": "vqa_outcar", "channel": "judge", "verdict": "partial", "reason": "提到树但未提护栏，且右侧描述为卡车与参考不符", "has_ref": true}
+{"sample_id": "q06_outcar_004", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "颜色一致", "has_ref": true}
+{"sample_id": "q06_outcar_005", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "模型说明前方空无车辆，符合参考的无车信息", "has_ref": true}
+{"sample_id": "q06_outcar_006", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "确认有红绿灯，符合参考", "has_ref": true}
+{"sample_id": "q06_outcar_007", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答表明外面是白天，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_008", "category": "vqa_outcar", "channel": "judge", "verdict": "wrong", "reason": "车辆数量不匹配", "has_ref": true}
+{"sample_id": "q06_outcar_009", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "模型回答为晴天并有白云，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_010", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答表明前方无行人，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_011", "category": "vqa_outcar", "channel": "judge", "verdict": "partial", "reason": "缺少路灯和太阳能板", "has_ref": true}
+{"sample_id": "q06_outcar_012", "category": "vqa_outcar", "channel": "judge", "verdict": "wrong", "reason": "颜色与参考答案不符", "has_ref": true}
+{"sample_id": "q06_outcar_013", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "模型说明前方无车辆，未见堵车，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_014", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "否定红绿灯，符合参考", "has_ref": true}
+{"sample_id": "q06_outcar_015", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答表明外面是白天，与参考一致", "has_ref": true}
+{"sample_id": "q06_outcar_016", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答的车辆数量与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_017", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "天气描述一致", "has_ref": true}
+{"sample_id": "q06_outcar_018", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "模型称未看到行人，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_outcar_019", "category": "vqa_outcar", "channel": "judge", "verdict": "partial", "reason": "提及树木和建筑，未提路灯", "has_ref": true}
+{"sample_id": "q06_outcar_020", "category": "vqa_outcar", "channel": "judge", "verdict": "wrong", "reason": "颜色不符", "has_ref": true}
+{"sample_id": "q06_outcar_021", "category": "vqa_outcar", "channel": "judge", "verdict": "partial", "reason": "误报车道空，实际有皮卡", "has_ref": true}
+{"sample_id": "q06_outcar_022", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "核心信息一致，说明路边没有红绿灯", "has_ref": true}
+{"sample_id": "q06_outcar_023", "category": "vqa_outcar", "channel": "judge", "verdict": "correct", "reason": "回答白天，与参考答案核心信息一致", "has_ref": true}
+{"sample_id": "q06_outcar_024", "category": "vqa_outcar", "channel": "judge", "verdict": "partial", "reason": "加入了额外的“大块头”信息，与参考答案不完全一致", "has_ref": true}
+{"sample_id": "q06_chat_001", "category": "chat", "channel": "judge", "verdict": "refuse", "reason": "未提供GDP数值", "has_ref": true}
+{"sample_id": "q06_chat_002", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "模型解释与参考答案核心概念一致", "has_ref": true}
+{"sample_id": "q06_chat_003", "category": "chat", "channel": "judge", "verdict": "partial", "reason": "未提及更换卫生巾及私处清洁", "has_ref": true}
+{"sample_id": "q06_chat_004", "category": "chat", "channel": "judge", "verdict": "partial", "reason": "缺少洗衣机/洗碗机满载使用等信息", "has_ref": true}
+{"sample_id": "q06_chat_005", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "符合核心信息，额外描述未冲突", "has_ref": true}
+{"sample_id": "q06_chat_006", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心区别一致", "has_ref": true}
+{"sample_id": "q06_chat_007", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "内容围绕春天，符合参考答案核心", "has_ref": true}
+{"sample_id": "q06_chat_008", "category": "chat", "channel": "judge", "verdict": "wrong", "reason": "未提及蓝色火山", "has_ref": true}
+{"sample_id": "q06_chat_009", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心事实一致", "has_ref": true}
+{"sample_id": "q06_chat_010", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "包含所有核心食材，虽有额外重复", "has_ref": true}
+{"sample_id": "q06_chat_011", "category": "chat", "channel": "judge", "verdict": "partial", "reason": "提到发电但未说明高速路风大空旷的原因", "has_ref": true}
+{"sample_id": "q06_chat_012", "category": "chat", "channel": "judge", "verdict": "partial", "reason": "未提及嘻哈，遗漏核心信息", "has_ref": true}
+{"sample_id": "q06_chat_013", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心事实一致", "has_ref": true}
+{"sample_id": "q06_chat_014", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "提及光影色彩定格瞬间，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_chat_015", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心事实一致", "has_ref": true}
+{"sample_id": "q06_chat_016", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "模型确认轮胎会发热，与参考答案一致", "has_ref": true}
+{"sample_id": "q06_chat_017", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "模型回答认可经济环境导致的谨慎，符合正常现象的核心事实", "has_ref": true}
+{"sample_id": "q06_chat_018", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "符合压力差原理", "has_ref": true}
+{"sample_id": "q06_chat_019", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心事实一致，描述符合参考答案", "has_ref": true}
+{"sample_id": "q06_chat_020", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "回答为小助手，符合参考", "has_ref": true}
+{"sample_id": "q06_chat_021", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "关键特征一致", "has_ref": true}
+{"sample_id": "q06_chat_022", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "答案与参考一致", "has_ref": true}
+{"sample_id": "q06_chat_023", "category": "chat", "channel": "judge", "verdict": "wrong", "reason": "未提及舌头不能伸出，内容不符", "has_ref": true}
+{"sample_id": "q06_chat_024", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "核心信息一致", "has_ref": true}
+{"sample_id": "q06_chat_025", "category": "chat", "channel": "judge", "verdict": "correct", "reason": "答案年份一致", "has_ref": true}

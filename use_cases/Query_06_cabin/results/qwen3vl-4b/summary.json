@@ -1,0 +1,52 @@
+{
+  "tag": "qwen3vl-4b",
+  "model": "/data/models/Qwen3-VL-4B-Instruct",
+  "n": 100,
+  "judge_model": "gpt-oss-120b",
+  "by_category": {
+    "chat": {
+      "n": 25,
+      "correct": 18,
+      "partial": 4,
+      "wrong": 2,
+      "refuse": 1,
+      "skip": 0,
+      "err": 0,
+      "acc": 72.0,
+      "acc_loose": 88.0
+    },
+    "toolcall": {
+      "n": 25,
+      "scored": 24,
+      "name_hit": 23,
+      "no_call": 2,
+      "param_semantic": 9,
+      "param_semantic_n": 11,
+      "param_exact": 9,
+      "param_exact_n": 11,
+      "name_hit_pct": 95.83
+    },
+    "vqa_incar": {
+      "n": 25,
+      "correct": 24,
+      "partial": 1,
+      "wrong": 0,
+      "refuse": 0,
+      "skip": 0,
+      "err": 0,
+      "acc": 96.0,
+      "acc_loose": 100.0
+    },
+    "vqa_outcar": {
+      "n": 25,
+      "correct": 16,
+      "partial": 5,
+      "wrong": 4,
+      "refuse": 0,
+      "skip": 0,
+      "err": 0,
+      "acc": 64.0,
+      "acc_loose": 84.0
+    }
+  }
+}
